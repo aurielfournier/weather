@@ -4,7 +4,7 @@ setwd("~/data")
 
 dat <- read.csv('455643.csv')
 
-
+dat[dat==-9999] <- NA
 
 names <- colnames(dat)
 names <- tolower(names)
@@ -15,7 +15,7 @@ dat$day <- as.numeric(substr(dat$date, start=7, stop=8))
 
 dat <- dat[dat$year==2014,]
 
-dat[dat==-9999] <- NA
+
 
 dats <- dat[,c("month","day","year")]
 
@@ -26,7 +26,7 @@ for(i in 1:nrow(dats)) {juldates[i,1]<-varmonth[which(dats[i,1]==varmonth[,1]),2
                          
 }
 
-dat$jdate <- juldates
+dat$jdate <- juldates$jdate
 
 #TMIN = Min Temp
 #TMax = Max Temp
@@ -35,10 +35,12 @@ dat$jdate <- juldates
 #TSUN - Daily total sunshine (minutes)
 #WDMV - 24-hour wind movement
 
-dat <- dat[,c("elevation","latitude","longitude","tmin","tmax","prcp","awnd","tsun","wdmv","month","day","year","jdate")]
+dat <- dat[,c("elevation","latitude","longitude","tmin","tmax","prcp","awnd","tsun","wdmv","wdfg","month","day","year","jdate")]
 
 dat <- dat[dat$month==8|dat$month==9|dat$month==10,]
 
-
+dat$elevation <- as.numeric(dat$elevation)
+dat$latitude <- as.numeric(dat$latitude)
+dat$longitude <- as.numeric(dat$longitude)
 
 write.csv(dat, '2014_weather.csv')
