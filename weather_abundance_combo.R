@@ -1,5 +1,5 @@
 
-
+library(reshape)
 setwd("~/data")
 
 a14r1 <- read.csv("abundance_14r1.csv")
@@ -16,3 +16,11 @@ dat34 <- rbind(a14r3, a14r4)
 dat <- rbind(dat12, dat34)
 
 wea <- read.csv("2014_weather.csv")
+wea <- wea[,2:ncol(wea)]
+
+mwea <- melt(wea, id=c("jdate"),na.rm=TRUE)
+mdat <- melt(dat, id=c("jdate"),na.rm=TRUE)
+
+melt <- rbind(mwea, mdat)
+
+cdat <- cast(data=melt, jdate ~ variable, mean,fill=NA_real_)
