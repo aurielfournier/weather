@@ -38,7 +38,9 @@ mall <- rbind(mweaabund, mhour)
 
 cdat <- cast(data=mall, jdate ~ variable, max, fill=NA_real_)
 
+write.csv(cdat, "2014_weather_hours_abund.csv")
+
 ggplot()+
-  geom_point(data=cdat, aes(x=jdate, y=hours))+
+  geom_point(data=cdat, aes(x=mean, y=hours))+
   geom_point(data=cdat, aes(x=jdate, y=mean, colour="red"))
   ylim(0,150)
