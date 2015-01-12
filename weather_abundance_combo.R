@@ -16,15 +16,8 @@ dat12 <- rbind(a14r1, a14r2)
 dat34 <- rbind(a14r3, a14r4)
 dat <- rbind(dat12, dat34)
 
-#TMIN = Min Temp (tenths of degree C)
-#TMax = Max Temp (tenths of degree C)
-#PRCP = tenths of mm of precipitation
-#AWND - Average daily wind speed (tenths of meter per second)
-#TSUN - Daily total sunshine (minutes)
-#WDMV - 24-hour wind movement
-
-wea <- read.csv("2014_weather.csv")
-wea <- wea[,2:ncol(wea)]
+wea <- read.csv("2014_fall_NCEP.csv")
+wea <- wea[,3:ncol(wea)]
 
 hour <- read.csv("sunrise_sunset_2014.csv")
 hour <- hour[,c("hours","jdate")]
@@ -36,11 +29,11 @@ mhour <-melt(hour, id=c("jdate"), na.rm=T)
 mweaabund <- rbind(mwea, mdat)
 mall <- rbind(mweaabund, mhour)
 
-cdat <- cast(data=mall, jdate ~ variable, max, fill=NA_real_)
+cdat <- cast(data=mall, jdate ~ variable, min, fill=NA_real_)
 
 write.csv(cdat, "2014_weather_hours_abund.csv")
 
 ggplot()+
-  geom_point(data=cdat, aes(x=mean, y=hours))+
+  geom_point(data=cdat, aes(x=jdate, y=tempF))+
   geom_point(data=cdat, aes(x=jdate, y=mean, colour="red"))
   ylim(0,150)
