@@ -23,3 +23,16 @@ for(i in 1:nrow(dats)) {juldates[i,1]<-varmonth[which(dats[i,1]==varmonth[,1]),2
 }
 
 dat$jdate <- juldates
+
+#TMIN = Min Temp
+#TMax = Max Temp
+#PRCP = mm of precipitation
+#AWND - Average daily wind speed
+#TSUN - Daily total sunshine (minutes)
+#WDMV - 24-hour wind movement
+
+dat <- dat[,c("station","elevation","latitude","longitude","tmin","tmax","prcp","awnd","tsun","wdmv","month","day","year","jdate")]
+
+dat <- dat[dat$month==8|dat$month==9|dat$month==10,]
+
+write.csv(dat, '2014_weather.csv')
